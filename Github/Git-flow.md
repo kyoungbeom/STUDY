@@ -14,7 +14,7 @@
   * Realease<br> - Develope 브랜치가 출시가능한 수준까지 개발되었을 때,<br>
     &nbsp; Main 브랜치에 merge 하기 전 여러가지를 테스트하기 위한 임시 브랜치 
 
-  * Hotfix<br> - 출시 버전(Main 브랜치)에서 발생한 버그를 수정하는 브랜치
-
+  * Hotfix<br> - 출시 버전(Main 브랜치)에서 발생한 버그를 수정하는 브랜치<br><br>
+    
     ![image](https://github.com/KYOUNGBEOM/STUDY/assets/112946948/820367b4-786c-4e5a-93e3-a565851f4369)
 
