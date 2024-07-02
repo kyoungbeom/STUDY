@@ -7,3 +7,5 @@ Git-flow란?
   * Featuer - 기능을 개발하는 브랜치
   * Realease - 이번 출시 버전을 준비하는 브랜치
   * Hotfix - 출시 버전에서 발생한 버그를 수정하는 브랜치
+
+![git-flow](https://github.com/KYOUNGBEOM/STUDY/assets/112946948/925656dc-1dbe-4532-901f-4a1143e867b8)
