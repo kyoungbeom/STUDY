@@ -41,3 +41,12 @@
 2. 스테이징 영역에 추가된 파일 확인
     - git add로 스테이징 영역에 추가된 파일들은 "Changes to be committed" 섹션에 나열
     - 이 섹션에 있는 파일들은 다음 git commit 명령어를 통해 커밋할 준비가 되었다는 것을 의미
+  
+# git config --global 
+    - 시스템에서 Git 구성을 전역적으로 설정하는 데 사용되는 명령어
+    - 즉, 설정은 머신의 모든 저장소에 적용
+    - 예를 들어, git config --global user.name "Your Name"시스템의 모든 Git 저장소에 대한 글로벌 사용자 이름을 설정
+    
+# git log   
+    - 현재 저장소의 커밋 기록을 검색하고 표시하는 명령어
+
