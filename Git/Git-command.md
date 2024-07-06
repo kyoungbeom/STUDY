@@ -47,8 +47,8 @@
   
 # git config --global 
   - 시스템에서 Git 구성을 전역적으로 설정하는 데 사용되는 명령어
-  - 즉, 설정은 머신의 모든 저장소에 적용
-  - 예를 들어, git config --global user.name "Your Name"시스템의 모든 Git 저장소에 대한 글로벌 사용자 이름을 설정
+  - 설정은 머신의 모든 저장소에 적용
+  - git config --global user.name "Your Name" 시스템의 모든 Git 저장소에 대한 글로벌 사용자 이름을 설정
     
 # git log   
   - 현재 저장소의 커밋 기록을 검색하고 표시하는 명령어
@@ -78,7 +78,7 @@
   - git branch, 저장소의 모든 브랜치를 나열
   - git branch 브랜치명, 현재 브랜치를 복사한 새로운 이름의 브랜치가 생성
   - git branch -d 브랜치명, 지정된 브랜치를 삭제
-  - git branch -m 새로운 브랜치명, git에는 기존 브랜치에 대한 이름 변경 권한이 없음
+  - git branch -m 새로운 브랜치명, git에는 기존 브랜치에 대한 이름 변경 권한이 없음 <br>
     따라서 원하는 이름으로 새 브랜치를 만들고 기존 브랜치를 삭제함
   - git checkout 브랜치명, 입력한 브랜치명으로 브랜치 이동
 
