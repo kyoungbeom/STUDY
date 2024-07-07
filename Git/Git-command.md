@@ -81,6 +81,7 @@
   - git branch -m 새로운 브랜치명, git에는 기존 브랜치에 대한 이름 변경 권한이 없음 <br>
     따라서 원하는 이름으로 새 브랜치를 만들고 기존 브랜치를 삭제함
   - git checkout 브랜치명, 입력한 브랜치명으로 브랜치 이동
+  - git checkout -b 브랜치명 = git branch 브랜치명 + git checkout 브랜치 (브랜치 생성 + 작업 브랜치 이동)
 
 # git merge
   - 여러 개발 히스토리를 하나로 합치는 작업으로, 브랜치를 병합 시킬때 사용하는 명령어
@@ -98,5 +99,12 @@
       3-way Merge 의 결과를 별도의 커밋으로 만들고 나서 해당 브랜치가 그 커밋을 가리키도록 이동시킴
       ![basic-merging-2](https://github.com/KYOUNGBEOM/STUDY/assets/112946948/4e677add-35bb-4ac3-a747-0cff9d2219d7)
 
-
+# git stash
+  - 작업 디렉토리에서 커밋할 준비가 되지 않은 변경 사항을 일시적으로 저장하는 명령어
+  - git stash list, 모든 저장된 변경 사항 목록을 표시
+  - git stash apply, 가장 최근의 stash가 작업 디렉토리에 다시 적용
+  - git stash drop, 가장 최근의 stash 삭제
+  - git stash pop = git stash apply + git stash drop (stash 작업 디렉토리 적용 + 가장 최근 stash 삭제)
+  - git stash clear, 저장된 모든 stash 삭제
+    
 Git-Book(manual) : https://git-scm.com/book/en/v2 
