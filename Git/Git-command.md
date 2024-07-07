@@ -84,5 +84,19 @@
 
 # git merge
   - 여러 개발 히스토리를 하나로 합치는 작업으로, 브랜치를 병합 시킬때 사용하는 명령어
-  - git merge 브랜치명, 현재 위치한 브랜치를 브랜치명으로 병합시킴
+  - git merge 브랜치명, 현재 위치한 브랜치에 브랜치명을 병합시킴
+  - Fast forward
+    
+    - hotfix 브랜치가 가리키는 C4 커밋이 C2 커밋에 기반한 브랜치이기 때문에 브랜치 포인터는 Merge 과정 없이 그저 최신 커밋으로 이동 <br>
+      이런 Merge 방식을 “Fast forward” 라고 부름. 
+      ![basic-branching-5](https://github.com/KYOUNGBEOM/STUDY/assets/112946948/79775c7e-114a-4aea-9c52-b43391d3c1d3) <br>
 
+  - 3-way Merge
+
+    - 각 브랜치가 가리키는 커밋 두 개와 공통 조상 하나를 사용하여 병합하는 것을 3-way Merge 라고 함
+    - 단순히 브랜치 포인터를 최신 커밋으로 옮기는 게 아니라 <br>
+      3-way Merge 의 결과를 별도의 커밋으로 만들고 나서 해당 브랜치가 그 커밋을 가리키도록 이동시킴
+      ![basic-merging-2](https://github.com/KYOUNGBEOM/STUDY/assets/112946948/4e677add-35bb-4ac3-a747-0cff9d2219d7)
+
+
+Git-Book(manual) : https://git-scm.com/book/en/v2 
