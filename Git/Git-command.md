@@ -49,6 +49,7 @@
   - 시스템에서 Git 구성을 전역적으로 설정하는 데 사용되는 명령어
   - 설정은 머신의 모든 저장소에 적용
   - git config --global user.name "Your Name" 시스템의 모든 Git 저장소에 대한 글로벌 사용자 이름을 설정
+  - git config --global merge.tool kdiff3 병합 과정에서 충돌이 발생했을 때, 충돌을 관리해주는 툴 (툴 설정 후 git mergetool 입력하여 사용)
     
 # git log   
   - 현재 저장소의 커밋 기록을 검색하고 표시하는 명령어
