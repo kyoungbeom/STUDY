@@ -40,3 +40,41 @@ public class Polymorphism {
 ```
 
 # instanceof 연산자
+  - 참조변수 instanceof 형변환 하고자 하는 타입(클래스)의 형태로 사용
+  - insatnceof의 결과가 true라면 형변환이 가능하다는 것이고, false라면 불가능하다는 것
+
+# 참조변수와 인스턴스의 연결
+  - 조상클래스와 자손클래스 사이에 동일한 변수명을 가지는 인스턴스 변수가 존재할 경우 참조변수의 클래스 타입을 기준으로 출력
+  - 인스턴스 메서드의 경우에는 오버라이딩 된 자손 메서드가 출력
+```java
+// 조상 클래스 Parent
+class Parent {
+	int x = 100;
+	public String method() {
+		return "parent method";
+	}
+}
+
+// Parent 클래스를 상속한 자손 클래스 Child
+class Child extends Parent {
+	int x = 200;
+	public String method() {
+		return "child method";
+	}
+}
+
+public class Polymorphism {
+	public static void main(String[] args) {
+		Parent parent = new Child();
+		Child child = new Child();
+		
+		System.out.println("parent.x : " + parent.x); // 200이 출력되어야 할 것 같지만, 100 출력
+		System.out.println("parent.method : " + parent.method()); // 오버라이딩 된 자손 메서드 출력
+		
+		System.out.println(); // 공백
+		
+		System.out.println("child.x : " + child.x);
+		System.out.println("child.method : " + child.method());
+	}
+}
+```
