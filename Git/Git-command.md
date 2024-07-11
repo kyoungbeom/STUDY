@@ -2,6 +2,8 @@
   - Git 저장소를 초기화하는 명령어
   - 명령어를 실행하면 현재 디렉토리 상에 '.git'이라는 하위 디렉토리가 생성됨
   - 즉, 'git init' 명령어는 Git을 사용할 수 있도록 해당 디레토리를 Git 저장소로 만듦.
+  - git init --bare 생성할 폴더, 저장소를 초기화시키지만 워킹 디렉토리가 생성되지 않아 파일을 수정하거나 커밋할 수 없음. <br>
+    오직 push, pull만 가능한 원격 저장소로서의 역할을 함
 
 # git add 
   - 작업 디렉토리의 변경 내용을 스테이징 영역에 추가하는 명령어
@@ -109,5 +111,15 @@
   - git stash drop, 가장 최근의 stash 삭제
   - git stash pop = git stash apply + git stash drop (stash 작업 디렉토리 적용 + 가장 최근 stash 삭제)
   - git stash clear, 저장된 모든 stash 삭제
+
+# git 원격 저장소 
+  - git remote add 원격이름 원격url, ( 예시 : git remote add origin https://github.com/username/repository.git ) <br>
+      - 예시 명령어는 현재 로컬 저장소에 origin이라는 이름으로 GitHub 저장소를 추가하고, <br>
+         origin이라는 이름을 사용하여 원격 저장소와 상호작용할 수 있게함
+  - git remote -v, 현재 로컬 저장소에 추가된 모든 원격 저장소의 목록과 URL 출력
+  - git remote remove 원격이름, 연결된 원격 저장소를 삭제
+  - git push, 로컬 저장소의 내용을 연결한 원격 저장소에 저장
+  - git push --set--upstream 원격이름 브랜치이름, 설정한 브랜치에서 push를 하면 자동으로 설정한 원격 저장소로 내용을 push 
+
     
 Git-Book(manual) : https://git-scm.com/book/en/v2 
