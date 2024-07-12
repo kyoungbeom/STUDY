@@ -21,7 +21,32 @@
     서버 측에서는 CGI를 사용하여 이 요청을 처리하고 데이터를 생성하거나 처리하여 클라이언트에게 응답   
 
 # XHR 예제코드
+```html
+// html 파일
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="js/my.js" type="text/javascript"></script>
+</head>
+<body>
+	여기는 index.html 입니다. <br>
+	
+	무엇을 도와드릴까요? <br>
+	
+    <input type="text" name="question" id="question">
+    <button onClick="loadDoc()">전송</button>
+	
+	<hr>
+	
+	<div id="demo"></div>
+</body>
+</html>
+```
+
 ```javascript
+// js 파일
 // XHR 객체 호출
 function loadDoc() {
   var xhr = new XMLHttpRequest();
@@ -30,8 +55,10 @@ function loadDoc() {
       document.getElementById("demo").innerHTML = this.responseText;
     }
   };
+  var question = document.getElementById("question").value;
   xhr.open("POST", "main", true);
-  xhr.send();
+  xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded"); // 폼 데이터를 인코딩한 형식을 사용
+  xhr.send("question=" +  encodeURIComponent(question)); // encodeURIComponent 함수를 사용하여 데이터를 URL-safe하게 인코딩
 }
 ```
     
