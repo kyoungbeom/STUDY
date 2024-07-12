@@ -1,4 +1,4 @@
-# EJB(Enterprise JavaBean)
+# EJB(Enterprise Java Bean)
   - Java EE의 구성요소로, 기업용 어플리케이션 서버 측 컴포넌트를 개발하기 위한 기술
   - 분산 객체 컴퓨팅을 지원하여, 대규모 기업 환경에서 복잡한 비즈니스 로직을 쉽게 구현가능
 
