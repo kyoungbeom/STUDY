@@ -57,7 +57,7 @@ function loadDoc() {
   };
   var question = document.getElementById("question").value; // 사용자가 입력한 질문 가져오기
   xhr.open("POST", "main", true); // POST 방식으로 main URL에 요청을 준비
-  xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded"); // 요청 헤더에 데이터 타입 설정 (폼 데이터를 인코딩한 형식)
+  xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded"); // 요청 헤더에 Content-Type 설정 (폼 데이터를 인코딩한 형식)
   xhr.send("question=" + encodeURIComponent(question)); // 질문을 인코딩하여 요청 본문에 포함하여 서버에 전송
 }
 ```
@@ -159,3 +159,7 @@ public class MyServlet extends HttpServlet {
     }
 }
 ```
+
+![제목 없음](https://github.com/user-attachments/assets/d379bbd6-b8f7-4dbf-942d-a88e9c447b03)
+     
+	주의 !request.getParameter로 값을 얻어오기 위해서는 xhr에서 요청헤더를 보낼때 반드시 Content-Type을 폼데이터로 보내주어야함
