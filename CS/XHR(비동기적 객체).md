@@ -19,3 +19,19 @@
     XHR과 CGI는 웹 애플리케이션 개발 과정에서 서로 보완적으로 사용가능
     예를 들어, 클라이언트 측에서 XHR을 사용하여 서버에 데이터를 비동기적으로 요청하고, 
     서버 측에서는 CGI를 사용하여 이 요청을 처리하고 데이터를 생성하거나 처리하여 클라이언트에게 응답   
+
+# XHR 예제코드
+```javascript
+// XHR 객체 호출
+function loadDoc() {
+  var xhr = new XMLHttpRequest();
+  xhr.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      document.getElementById("demo").innerHTML = this.responseText;
+    }
+  };
+  xhr.open("POST", "main", true);
+  xhr.send();
+}
+```
+    
