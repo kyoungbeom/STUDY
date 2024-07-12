@@ -49,16 +49,16 @@
 // js 파일
 // XHR 객체 호출
 function loadDoc() {
-  var xhr = new XMLHttpRequest();
-  xhr.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-      document.getElementById("demo").innerHTML = this.responseText;
+  var xhr = new XMLHttpRequest(); // XMLHttpRequest 객체 생성
+  xhr.onreadystatechange = function() { // 상태 변화 이벤트 핸들러 설정
+    if (this.readyState == 4 && this.status == 200) { // 요청 완료 및 응답 상태 확인
+      document.getElementById("demo").innerHTML = this.responseText; // 서버에서 받은 응답을 demo 요소에 표시
     }
   };
-  var question = document.getElementById("question").value;
-  xhr.open("POST", "main", true);
-  xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded"); // 폼 데이터를 인코딩한 형식을 사용
-  xhr.send("question=" +  encodeURIComponent(question)); // encodeURIComponent 함수를 사용하여 데이터를 URL-safe하게 인코딩
+  var question = document.getElementById("question").value; // 사용자가 입력한 질문 가져오기
+  xhr.open("POST", "main", true); // POST 방식으로 main URL에 요청을 준비
+  xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded"); // 요청 헤더에 데이터 타입 설정 (폼 데이터를 인코딩한 형식)
+  xhr.send("question=" + encodeURIComponent(question)); // 질문을 인코딩하여 요청 본문에 포함하여 서버에 전송
 }
 ```
     
