@@ -35,8 +35,8 @@
 	
 	무엇을 도와드릴까요? <br>
 	
-    <input type="text" name="question" id="question">
-    <button onClick="loadDoc()">전송</button>
+    	<input type="text" name="question" id="question">
+    	<button onClick="loadDoc()">전송</button>
 	
 	<hr>
 	
