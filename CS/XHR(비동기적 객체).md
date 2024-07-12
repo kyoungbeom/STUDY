@@ -63,6 +63,7 @@ function loadDoc() {
 ```
     
 ``` java
+// servlet 파일
 package web.controller;
 
 import java.io.BufferedReader;
