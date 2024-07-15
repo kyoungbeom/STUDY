@@ -115,11 +115,11 @@
 # git 원격 저장소 
   - git remote add 원격이름 원격url, ( 예시 : git remote add origin https://github.com/username/repository.git ) <br>
       - 예시 명령어는 현재 로컬 저장소에 origin이라는 이름으로 GitHub 저장소를 추가하고, <br>
-         origin이라는 이름을 사용하여 원격 저장소와 상호작용할 수 있게함
+        origin이라는 이름을 사용하여 원격 저장소와 상호작용할 수 있게함
   - git remote -v, 현재 로컬 저장소에 추가된 모든 원격 저장소의 목록과 URL 출력
   - git remote remove 원격이름, 연결된 원격 저장소를 삭제
   - git push, 로컬 저장소의 내용을 연결한 원격 저장소에 저장
-  - git push --set--upstream 원격이름 브랜치이름, 설정한 브랜치에서 push를 하면 자동으로 설정한 원격 저장소로 내용을 push 
-
-    
+  - git push --set--upstream 원격이름 브랜치이름, 설정한 브랜치에서 push를 하면 자동으로 설정한 원격 저장소로 내용을 push
+  - git clone 복제할 주소 로컬 저장소명, Git에서 원격 저장소의 내용을 복제하여 로컬에 새로운 Git 저장소를 생성하는 명령어
+   
 Git-Book(manual) : https://git-scm.com/book/en/v2 
