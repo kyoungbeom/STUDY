@@ -1,6 +1,7 @@
 # JVM(Java Virtual Machine) 메모리 구조
   1. 힙 (Heap)
       - 힙은 메서드 영역과 인스턴스 영역으로 나누어짐
+      - static 멤버들은 클래스를 로드하는 순간 처리, instance 멤버들은 클래스의 생성자를 호출할 때 처리
 
         1). 메서드 영역(Method Area) <br>
         
