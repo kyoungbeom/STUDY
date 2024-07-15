@@ -1,4 +1,6 @@
 # JVM(Java Virtual Machine) 메모리 구조
+![image](https://github.com/user-attachments/assets/20ea6a57-c1ae-4a13-8523-49a86f8ad30a)
+
   1. 힙 (Heap)
       - 힙은 메서드 영역과 인스턴스 영역으로 나누어짐
 
