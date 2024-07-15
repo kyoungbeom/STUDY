@@ -18,11 +18,12 @@
 # 인터페이스 일관성
   인터페이스 일관성이 잘 지켜졌는지에 따라 REST를 잘 사용했는지 판단가능
     
-       1. 자원식별
+       1. 리소스 식별자
           - 웹 기반 REST에서는 리소스에 접근할 때 URI를 사용
             EX). https://www.github.com/kyoungbeom/1 -> Resource : kyoungbeom / 식별자 : 1
 
-       2. 메세지를 통한 리소스 조작
+       2. HTTP 메서드의 사용
+          - HTTP 메서드는 리소스의 CRUD 작업을 정의 (GET, POST, PUT, DELETE 등)
           - 리소스 타입을 알려주기 위해서 header 부분에 content-type을 통해서 어떠한 타입인지를 지정
           - 이를 통해 서버는 클라이언트가 보내는 데이터의 타입을 이해
 
