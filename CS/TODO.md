@@ -3,7 +3,3 @@
 # xml / Json 데이터 타입
 
 # SOAP
-
-# B2B & B2C
-
-# REST API
