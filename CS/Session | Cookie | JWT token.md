@@ -1,3 +1,187 @@
+# Session
+    정의 : 웹 어플리케이션에서 클라이언트와 서버간의 상태를 유지하기 위해 사용하는 방법
+
+    필요성 
+           HTTP는 상태를 유지하지 않는 stateless 프로토콜이기 때문에,
+           클라이언트쪽에서 여러번 요청을 보내도 서버쪽에서는 해당 클라이언트가 동일한 클라이언트인지 알 수 없음
+
+           따라서 서버쪽에 사용자마다 고유한 sessionId를 생성하여 저장해놓고, 
+           생성한 sessionId를 쿠키의 형태로 클라이언트에게 보내 반복되는 요청에 대해 서버가 동일한 클라이언트인지를 판단할 수 있게 해줌.
+
+    장점 
+           1. 세션을 통해 사용자의 로그인 상태, 장바구니 정보 등 중요한 상태를 유지할 수 있음
+           2. 쿠키에 비해 상대적으로 보안이 뛰어나고, 중요 정보를 서버에 저장하기 때문에 클라이언트측 정보 유출위험이 낮음
+           3. 세션 정보가 서버에 저장되므로, 서버측에서 정보 관리와 접근 제어가 용이함
+
+    단점
+           1. 세션은 서버 메모리나 데이터베이스에 저장되기 때문에, 많은 사용자가 접속할 경우 서버에 부하가 생길 수 있음
+           2. 세션은 설정한 시간동안만 유효하며, 이 시간이 지나면 다시 로그인해야하는 불편함이 있음
+           3. 여러대의 서버가 운영되는 환경에서는 세션 관리를 위해 별도의 세션 클러스터링이나 공유 메커니즘이 필요함
+<hr>           
+
+# Session 구현 코드
+[session.zip](https://github.com/user-attachments/files/16678798/session.zip) (Intellij / Spring Boot / Gradle / zip 파일 다운 받으면 전체코드 다운가능)
+```java
+package com.example.session.service;
+
+import com.example.session.db.UserRepository;
+import com.example.session.model.LoginRequest;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class UserService {
+
+    @Autowired
+    private UserRepository userRepository;
+
+    // sessionId를 만드는 방법 1
+    public void login1(
+            LoginRequest loginRequest,
+            HttpSession httpSession
+    ) {
+        var id = loginRequest.getId();
+        var pw = loginRequest.getPassword();
+
+        // 입력받은 id로 DB에 해당 id이 있는지 확인
+        var optionalUser = userRepository.findByName(id);
+
+        // db에 입력받은 id가 있다면
+        if(optionalUser.isPresent()) {
+            // db에 저장되어있던 유저정보를 가져옴
+            var userDto = optionalUser.get();
+
+            // db에 저장된 유저정보가 입력받은 비밀번호와 같다면
+            if(userDto.getPassword().equals(pw)) {
+
+                // 메서드 호출 시 세션이 없으면 새로운 세션이 생성되고, 이때 sessionId가 만들어짐
+                // 만들어진 sessionId는 HTTP 응답의 쿠키에 담겨 클라이언트한테 전달됨
+                httpSession.setAttribute("USER", userDto);
+            } else {
+                throw new RuntimeException("Password Not Match");
+            }
+        }  else { // 없는 유저
+            throw new RuntimeException("User Not Found");
+        }
+    }
+
+    // sessionId를 만드는 방법 2
+    public void login2(
+            LoginRequest loginRequest,
+            HttpServletRequest request
+    ) {
+        // 기존의 세션이 존재한다면 세션을 받아오고, 존재하지 않는다면 새로운 세션을 생성
+        // getSession() 메서드가 호출되는 순간 서블릿컨테이너가 자동으로 sessionId 생성
+        HttpSession session = request.getSession(true); // 여기에 false를 넣으면 세션이 존재하지 않아도 새로운 세션을 만들지 않음
+        
+        var id = loginRequest.getId();
+        var pw = loginRequest.getPassword();
+
+        // 입력받은 id로 DB에 해당 id이 있는지 확인
+        var optionalUser = userRepository.findByName(id);
+
+        // db에 입력받은 id가 있다면
+        if(optionalUser.isPresent()) {
+            // db에 저장되어있던 유저정보를 가져옴
+            var userDto = optionalUser.get();
+
+            // db에 저장된 유저정보가 입력받은 비밀번호와 같다면
+            if(userDto.getPassword().equals(pw)) {
+                // getSession() 메서드에서 이미 sessionId가 생성되었기 때문에, 별도로 생성하지 않음
+                session.setAttribute("USER", userDto);
+            } else {
+                throw new RuntimeException("Password Not Match");
+            }
+        }  else { // 없는 유저
+            throw new RuntimeException("User Not Found");
+        }
+    }
+}
+```
+<hr>
+
+# Cookie
+    정의 : 웹 브라우저와 서버 간의 상태 정보를 저장하고 교환하기 위해 사용하는 작은 데이터 파일
+
+    필요성 :
+            HTTP는 상태를 유지하지 않는 stateless 프로토콜이기 때문에, 서버는 클라이언트의 상태를 지속적으로 추적하기 어려움.
+            이때 쿠키를 통해 클라이언트의 상태를 서버가 식별하고 유지할 수 있도록 돕기 위해 사용할 수 있음.
+            서버는 클라이언트에게 쿠키를 전송하고, 클라이언트는 이후의 요청에 이 쿠키를 포함시켜 서버와의 상태를 유지할 수 있음.
+
+    장점
+           1. 쿠키를 통해 사용자의 로그인 상태, 개인화된 설정, 장바구니 정보 등을 유지할 수 있음.
+           2. 키는 클라이언트 측에 저장되므로 서버의 메모리나 데이터베이스에 부담을 주지 않음
+           3. 쿠키는 HTTP 헤더에 포함되어 자동으로 전송되므로, 별도의 서버 측 세션 관리 없이 상태를 유지할 수 있음.
+           4. 영구 저장 가능: 쿠키는 만료 시간을 설정할 수 있어, 브라우저를 닫거나 컴퓨터를 재부팅하더라도 일정 기간 동안 정보를 유지할 수 있음.
+
+    단점
+           1. 보안 취약성: 쿠키는 클라이언트 측에 저장되기 때문에, 악의적인 사용자가 쿠키를 조작하거나 탈취할 위험이 있음. 
+              따라서 중요한 정보는 쿠키에 직접 저장하지 않아야 함
+           2. 하나의 쿠키 당 최대 4KB까지의 데이터를 저장할 수 있음. 많은 데이터를 저장하기에는 용량이 부족함.
+           3. 쿠키는 브라우저에 의존하며, 사용자가 브라우저 설정을 통해 쿠키 저장을 거부할 수 있음. 이런 경우 쿠키를 활용한 상태 유지가 불가능해짐.
+           4. 클라이언트가 서버로 요청을 보낼 때마다 쿠키가 함께 전송되므로, 쿠키 크기가 커질수록 네트워크 성능에 영향을 미칠 수 있음.
+<hr>
+           
+# Cookie 구현 코드
+[cookie.zip](https://github.com/user-attachments/files/16678712/cookie.zip) (Intellij / Spring Boot / Gradle / zip 파일 다운 받으면 전체코드 다운가능)
+```java
+package com.example.cookie.service;
+
+import com.example.cookie.db.UserRepository;
+import com.example.cookie.model.LoginRequest;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class UserService {
+
+    @Autowired
+    private UserRepository userRepository;
+
+    public void login(
+            LoginRequest loginRequest,
+            HttpServletResponse httpServletResponse
+    ) {
+        var id = loginRequest.getId();
+        var password = loginRequest.getPassword();
+
+        var optionalUser = userRepository.findByName(id);
+
+        // DB에 아이디가 존재하면
+        if(optionalUser.isPresent()) {
+            // userDto를 가져옴
+            var userDto = optionalUser.get();
+
+            // db에 있는 비밀번호와 입력받은 비밀번호가 같다면
+            if(userDto.getPassword().equals(password)) {
+                
+                // 여기서부터 쿠키 세팅
+                // cookie에 해당 정보를 저장
+                var cookie = new Cookie("authorization-cookie", userDto.getId());
+                cookie.setDomain("localhost"); // 특정 도메인에서만 사용가능하게
+                cookie.setPath("/");
+                cookie.setHttpOnly(true); // js에서 cookie 탈취 못하게 막는 보안코드 -> 필수!!
+                cookie.setSecure(true); // Https에서만 쿠기가 사용되도록 설정 -> 마찬가지로 필수!!
+                cookie.setMaxAge(-1); // -1은 연결된 동안만 사용 = 세션이 유지되는 동안만 사용
+
+                // 응답에 쿠키를 추가
+                httpServletResponse.addCookie(cookie);
+            } else {
+                throw new RuntimeException("Password Not Match");
+            }
+        } else {
+            throw new RuntimeException("User Not Found");
+        }
+
+    }
+}
+```
+<hr>
+
 # JWT Token (JSON Web Token)
     정의 : JSON 객체를 사용하여 웹에서 사용자 정보를 인증하고 전달하기 위해 사용되는 토큰 기반의 인증방식
 
@@ -46,9 +230,8 @@
    공식사이트 링크 : https://jwt.io/
 <hr>
 
-
 # JWT Token 구현 코드 
-[jwt.zip](https://github.com/user-attachments/files/16675275/jwt.zip) (Intellij / Spring Boot / Gradle / JJWT 라이브러리 사용, 전체 파일 다운 가능)
+[jwt.zip](https://github.com/user-attachments/files/16675275/jwt.zip) (Intellij / Spring Boot / Gradle / JJWT 라이브러리 사용, zip 파일 다운 받으면 전체코드 다운가능 )
 ```java
 package com.example.jwt.service;
 
