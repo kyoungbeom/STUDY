@@ -117,27 +117,101 @@ public class UserService {
            4. 영구 저장 가능: 쿠키는 만료 시간을 설정할 수 있어, 브라우저를 닫거나 컴퓨터를 재부팅하더라도 일정 기간 동안 정보를 유지할 수 있음.
 
     단점
+           1. 쿠키는 클라이언트 측에 저장되기 때문에, 악의적인 사용자가 쿠키를 조작하거나 탈취할 위험이 있음.
+              따라서 중요한 정보는 쿠키에 직접 저장하지 않는 것이 좋음.
+           2. 쿠키는 일반적으로 하나 당 최대 4KB까지의 데이터를 저장할 수 있음. 많은 데이터를 저장하는 것에는 한계가 있음.
+           3. 쿠키는 브라우저에 의존하며, 사용자가 브라우저 설정을 통해 쿠키 저장을 거부할 수 있음. 이런 경우 쿠키를 활용한 상태 유지가 불가능해짐.
+           4. 클라이언트가 서버로 요청을 보낼 때마다 쿠키가 함께 전송되므로, 쿠키 크기가 커질수록 네트워크 성능에 영향을 미칠 수 있음.
+<hr>
 
+# Cookie 구현 코드 
+[cookie.zip](https://github.com/user-attachments/files/16683720/cookie.zip) (Intellij / Spring Boot / Gradle / zip 파일 다운 받으면 전체코드 다운가능)
 ```java
+   package com.example.cookie.service;
+
+import com.example.cookie.db.UserRepository;
+import com.example.cookie.model.LoginRequest;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class UserService {
+
+    @Autowired
+    private UserRepository userRepository;
+
+    // cookie를 만드는 방법 1 (HttpServletResponse 사용)
+    public void login1(
+            LoginRequest loginRequest,
+            HttpServletResponse httpServletResponse
+    ) {
+        var id = loginRequest.getId();
+        var password = loginRequest.getPassword();
+
+        var optionalUser = userRepository.findByName(id);
+
+        // DB에 아이디가 존재하면
+        if(optionalUser.isPresent()) {
+            // userDto를 가져옴
+            var userDto = optionalUser.get();
+
+            // db에 있는 비밀번호와 입력받은 비밀번호가 같다면
+            if(userDto.getPassword().equals(password)) {
+
+                // 여기서부터 쿠키 세팅
+                var cookie = new Cookie("authorization-cookie", userDto.getId()); // 편의성을 위해 userId로 쿠키를 설정하였는데, 실제 개발시는 다른 값으로 설정해주세요
+                cookie.setDomain("localhost"); // 특정 도메인에서만 사용가능하게 (해당 코드는 로컬호스트로 설정)
+                cookie.setPath("/"); // 주소설정
                 cookie.setHttpOnly(true); // js에서 cookie 탈취 못하게 막는 보안코드 -> 필수!!
                 cookie.setSecure(true); // Https에서만 쿠기가 사용되도록 설정 -> 마찬가지로 필수!!
-                cookie.setMaxAge(-1); // 정
-                    cookie.setHttpOnly(true); // js에서 cookie 탈취 못하게 막는 보안코드 -> 필수!!
-                    cookie.setSecure(true); // Https에서만 쿠기가 사용되도록 설정 -> 마찬가지로 필수!!
-                    cookie.setMaxAge(-1); // -1은 연결된 동안만 사용 = 세션이 유지되는 동안만 사용
+                cookie.setMaxAge(-1); // -1은 연결된 동안만 사용 = 세션이 유지되는 동안만 사용
 
-                    // HttpHeader 객체 생성
-                    HttpHeaders headers = new HttpHeaders();
-                    // HTTP Header에 쿠키를 담아서 보냄
-                    headers.add("Set-Cookie", cookie.toString());
-
-                    return new ResponseEntity<>("Login Successful", headers, HttpStatus.OK);
-                } else {
-                    return new ResponseEntity<>("Password Not Match", HttpStatus.UNAUTHORIZED);
-                }
+                // 응답에 쿠키를 추가
+                httpServletResponse.addCookie(cookie);
             } else {
-                return new ResponseEntity<>("User Not Found", HttpStatus.NOT_FOUND);
+                throw new RuntimeException("Password Not Match");
             }
+        } else {
+            throw new RuntimeException("User Not Found");
+        }
+    }
+
+// cookie를 만드는 방법 2 (HttpHeader 사용)
+    public void login2(
+            LoginRequest loginRequest,
+            HttpServletResponse httpServletResponse
+    ) {
+        var id = loginRequest.getId();
+        var password = loginRequest.getPassword();
+
+        var optionalUser = userRepository.findByName(id);
+
+        // DB에 아이디가 존재하면
+        if(optionalUser.isPresent()) {
+            // userDto를 가져옴
+            var userDto = optionalUser.get();
+
+            // db에 있는 비밀번호와 입력받은 비밀번호가 같다면
+            if(userDto.getPassword().equals(password)) {
+
+                // 여기서부터 쿠키 세팅
+                var cookie = new Cookie("authorization-cookie", userDto.getId()); // 편의성을 위해 userId로 쿠키를 설정하였는데, 실제 개발시는 다른 값으로 설정해주세요
+                cookie.setDomain("localhost"); // 특정 도메인에서만 사용가능하게 (해당 코드는 로컬호스트로 설정)
+                cookie.setPath("/"); // 주소설정
+                cookie.setHttpOnly(true); // js에서 cookie 탈취 못하게 막는 보안코드 -> 필수!!
+                cookie.setSecure(true); // Https에서만 쿠기가 사용되도록 설정 -> 마찬가지로 필수!!
+                cookie.setMaxAge(-1); // -1은 연결된 동안만 사용 = 세션이 유지되는 동안만 사용
+
+                // 헤더에 쿠키를 추가
+                HttpHeaders httpHeaders = new HttpHeaders();
+                headers.add("Set-Cookie", cookie.toString());
+            } else {
+                throw new RuntimeException("Password Not Match");
+            }
+        } else {
+            throw new RuntimeException("User Not Found");
         }
     }
 ```
