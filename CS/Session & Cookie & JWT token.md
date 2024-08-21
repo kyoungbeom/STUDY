@@ -144,7 +144,7 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    // cookie를 만드는 방법 2 (HttpServletResponse 사용)
+    // cookie를 만드는 방법 1 (HttpServletResponse 사용)
     public void login1 (
             LoginRequest loginRequest,
             HttpServletResponse httpServletResponse
