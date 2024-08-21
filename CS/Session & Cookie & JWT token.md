@@ -126,15 +126,16 @@ public class UserService {
 <hr>
 
 # Cookie 구현 코드 
-[cookie.zip](https://github.com/user-attachments/files/16683720/cookie.zip) (Intellij / Spring Boot / Gradle / zip 파일 다운 받으면 전체코드 다운가능)
+[cookie.zip](https://github.com/user-attachments/files/16683750/cookie.zip) (Intellij / Spring Boot / Gradle / zip 파일 다운 받으면 전체코드 다운가능)
 ```java
-   package com.example.cookie.service;
+package com.example.cookie.service;
 
 import com.example.cookie.db.UserRepository;
 import com.example.cookie.model.LoginRequest;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -143,8 +144,7 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    // cookie를 만드는 방법 1 (HttpServletResponse 사용)
-    public void login1(
+    public void login(
             LoginRequest loginRequest,
             HttpServletResponse httpServletResponse
     ) {
@@ -162,9 +162,10 @@ public class UserService {
             if(userDto.getPassword().equals(password)) {
 
                 // 여기서부터 쿠키 세팅
-                var cookie = new Cookie("authorization-cookie", userDto.getId()); // 편의성을 위해 userId로 쿠키를 설정하였는데, 실제 개발시는 다른 값으로 설정해주세요
-                cookie.setDomain("localhost"); // 특정 도메인에서만 사용가능하게 (해당 코드는 로컬호스트로 설정)
-                cookie.setPath("/"); // 주소설정
+                // cookie에 해당 정보를 저장
+                var cookie = new Cookie("authorization-cookie", userDto.getId());
+                cookie.setDomain("localhost"); // 특정 도메인에서만 사용가능하게
+                cookie.setPath("/");
                 cookie.setHttpOnly(true); // js에서 cookie 탈취 못하게 막는 보안코드 -> 필수!!
                 cookie.setSecure(true); // Https에서만 쿠기가 사용되도록 설정 -> 마찬가지로 필수!!
                 cookie.setMaxAge(-1); // -1은 연결된 동안만 사용 = 세션이 유지되는 동안만 사용
@@ -179,10 +180,9 @@ public class UserService {
         }
     }
 
-// cookie를 만드는 방법 2 (HttpHeader 사용)
+    // cookie를 만드는 방법 2 (HttpHeader 사용)
     public void login2(
-            LoginRequest loginRequest,
-            HttpServletResponse httpServletResponse
+            LoginRequest loginRequest
     ) {
         var id = loginRequest.getId();
         var password = loginRequest.getPassword();
@@ -207,7 +207,7 @@ public class UserService {
 
                 // 헤더에 쿠키를 추가
                 HttpHeaders httpHeaders = new HttpHeaders();
-                headers.add("Set-Cookie", cookie.toString());
+                httpHeaders.add("Set-Cookie", cookie.toString());
             } else {
                 throw new RuntimeException("Password Not Match");
             }
@@ -215,6 +215,7 @@ public class UserService {
             throw new RuntimeException("User Not Found");
         }
     }
+}
 ```
 <hr>
 
