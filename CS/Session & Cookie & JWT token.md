@@ -37,7 +37,7 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    // sessionId를 만드는 방법 1
+    // sessionId를 만드는 방법 1 (HttpSession 사용)
     public void login1(
             LoginRequest loginRequest,
             HttpSession httpSession
@@ -67,7 +67,7 @@ public class UserService {
         }
     }
 
-    // sessionId를 만드는 방법 2
+    // sessionId를 만드는 방법 2 (HttpServletRequest 사용)
     public void login2(
             LoginRequest loginRequest,
             HttpServletRequest request
@@ -144,7 +144,8 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public void login(
+    // cookie를 만드는 방법 2 (HttpServletResponse 사용)
+    public void login1 (
             LoginRequest loginRequest,
             HttpServletResponse httpServletResponse
     ) {
