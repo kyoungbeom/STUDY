@@ -117,7 +117,8 @@ public class UserService {
            4. 영구 저장 가능: 쿠키는 만료 시간을 설정할 수 있어, 브라우저를 닫거나 컴퓨터를 재부팅하더라도 일정 기간 동안 정보를 유지할 수 있음.
 
     단점
-  정
+
+```java
                 cookie.setHttpOnly(true); // js에서 cookie 탈취 못하게 막는 보안코드 -> 필수!!
                 cookie.setSecure(true); // Https에서만 쿠기가 사용되도록 설정 -> 마찬가지로 필수!!
                 cookie.setMaxAge(-1); // 정
