@@ -27,10 +27,10 @@
 
 ![image](https://github.com/user-attachments/assets/ebb0534b-50f2-4f85-a6cb-0561e4b5a98e)
 
-# 하드웨어적 스레드
-- 하드웨어적 스레드란 '하나의 코어가 동시에 처리하는 명령의 단위'와 같음
-- 예를 들어, 2코어 4스레드 CPU는 명령어를 실행하는 부품 2개를 포함하고, 동시에 4개의 명령어를 처리할 수 있음
-- 이처럼 하나의 코어로 여러 명령어를 동시에 처리하는 CPU를 '멀티스레드 프로세서' 또는 '멀티스레드 CPU'라고 부름
+# 하드웨어적 스레드(= 논리적 프로세서)
+- 하드웨어적 스레드란 '하나의 코어가 동시에 처리하는 실행 단위'와 같음
+- 예를 들어, 2코어 4스레드 CPU는 명령어를 실행하는 부품 2개를 포함하고, 동시에 4개의 실행 단위를 처리할 수 있음
+- 이처럼 하나의 코어로 동시에 여러 실행 단위를 처리하는 CPU를 '멀티스레드 프로세서' 또는 '멀티스레드 CPU'라고 부름
 
 ![image](https://github.com/user-attachments/assets/a768d020-99b4-46db-9191-7c9a507553c8)
 
@@ -41,15 +41,26 @@
 ![image](https://github.com/user-attachments/assets/12ff9a93-4c34-4f57-8754-5e60636aad8c)
 
 # 멀티스레드 프로세서
-- 멀티스테드 프로세서에 있어 가장 큰 핵심은 레지스터임.
-- 하나의 코어로 여러개의 명령어를 처리하게 만들려면, 레지스터를 여러개 가지고 있으면 됨
+- 멀티스레드 프로세서를 구현하는 방법에는 하이퍼스레딩, 코어기반 멀티스레딩 등이 있음
+- 멀리스레드 프로세서는 동시에 여러개의 실행단위를 실행할 수 있게하는 개념임.
   
 ![image](https://github.com/user-attachments/assets/ba44541b-dbcd-430c-8f7b-446bbf43308f)
 
 - 사진과 같은 2코어 4스레드 CPU는 프로그램 입장에서 봤을때는 CPU가 4개 있는 것과 다름이 없음
 - 그래서 하드웨어 스레드를 '논리 프로세서'라고 부르기도 함
+- 또한, 2코어 4스레드 CPU의 경우에는 코어기반 멀티스레딩과 하이퍼스레딩 둘 모두가 사용된 CPU라고 볼 수 있음
 
 ![image](https://github.com/user-attachments/assets/89f2e170-8060-473c-b16f-bfe0bb30f805)
+
+# 코어기반 멀티스레딩과 하이퍼스레딩의 차이점
+
+![image](https://github.com/user-attachments/assets/f698ddcd-98e8-4b3b-a2d9-7abc648cce15)
+
+
+# 하이퍼스레딩과 레지스터 세트
+
+![image](https://github.com/user-attachments/assets/22ec11a3-0057-44a4-9202-2d510c9b8660)
+
 
 
 
