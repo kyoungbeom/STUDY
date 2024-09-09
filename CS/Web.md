@@ -49,3 +49,5 @@
     이러한 서블릿 관리를 서블릿 컨테이너가 함 
     
     즉, 대부분의 WAS는 서블릿 컨테이너를 포함하고 있음
+
+![image](https://github.com/user-attachments/assets/18e50c3f-93c7-442d-a2b5-397b3631ebe1)
