@@ -1,4 +1,4 @@
-# 엔티티 객체 간의 관계성
+# 엔티티  간의 관계성
 <img src="https://github.com/user-attachments/assets/5bd38561-91b1-4c99-bb14-936540f7b7b4" alt="이미지 설명" width="500" height="1000">
 
 # 즉시로딩(Eager Loading)과 지연로딩(Lazy Loading)
