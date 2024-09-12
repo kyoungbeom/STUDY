@@ -1,4 +1,4 @@
-# 웹서버(Web Server)
+  # 웹서버(Web Server)
   - HTTP를 통해 웹브라우저에서 요청하는 HTML파일이나 오브젝트(이미지 파일 등)을 전송해주는 서비스 프로그램
    
   - 웹 초창기에는 복잡한 동적 처리를 하지 않았기 때문에 웹서버만으로 처리가능
@@ -78,7 +78,7 @@ JAVA EE는 JAVA SE를 기반으로 하는 표준 스펙 <br>
 JAVA EE는 엔터프라이즈 애플리케이션을 구축하기 위한 다양한 API와 컴포넌트(예: EJB, JSP, Servlets, JPA 등)를 제공 <br>
 JAVA EE는 인터페이스와 규약을 정의하며, 직접 실행할 수 없음. 대신, 이러한 스펙을 구현한 애플리케이션 서버(WAS)가 필요함
 
-## 3.  JAVA EE 구현체
+# JAVA EE 구현체
 
 ###  TOMCAT
 TOMCAT은 JAVA EE 스펙의 일부를 구현한 경량화된 WAS임 <br>
