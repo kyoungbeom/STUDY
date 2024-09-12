@@ -56,6 +56,8 @@
 
 ## 1. JAVA SE (Standard Edition)
 
+JAVA SE는 크게 JRE(실행)와 JDK(실행, 개발)로 나누어짐
+
 ### JRE
 
 JRE (Java Runtime Environment): 자바 애플리케이션을 실행하기 위한 환경 <br>
