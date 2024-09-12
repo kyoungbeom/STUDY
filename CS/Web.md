@@ -51,3 +51,54 @@
     즉, 대부분의 WAS는 서블릿 컨테이너를 포함하고 있음
 
 ![image](https://github.com/user-attachments/assets/18e50c3f-93c7-442d-a2b5-397b3631ebe1)
+
+# JAVA SE와 JAVA EE 
+
+## 1. JAVA SE (Standard Edition)
+
+### JRE
+
+JRE (Java Runtime Environment): 자바 애플리케이션을 실행하기 위한 환경 <br>
+JRE는 JVM과 기본 자바 클래스 라이브러리(rt.jar)를 포함하고 있으며, 애플리케이션 실행만 가능
+
+### JDK
+
+JDK (Java Development Kit): 자바 애플리케이션을 개발하기 위한 도구 모음 <br>
+JDK는 JRE를 포함하고 있으며, 추가적으로 컴파일러(javac), 디버거, 문서 생성기 등을 제공 <br>
+JDK는 자바 애플리케이션을 개발하고 실행하는 데 필요한 모든 도구를 제공
+
+### JVM의 역할
+
+JVM은 자바 애플리케이션을 실행하는 핵심 역할을 하며, JAVA SE와 JAVA EE에서 공통적으로 사용됨 <br>
+JVM은 바이트코드를 해석하고, 실제 머신 코드로 변환하여 애플리케이션을 실행함
+
+## 2. JAVA EE (Enterprise Edition)
+
+JAVA EE는 JAVA SE를 기반으로 하는 표준 스펙 <br>
+JAVA EE는 엔터프라이즈 애플리케이션을 구축하기 위한 다양한 API와 컴포넌트(예: EJB, JSP, Servlets, JPA 등)를 제공 <br>
+JAVA EE는 인터페이스와 규약을 정의하며, 직접 실행할 수 없음. 대신, 이러한 스펙을 구현한 애플리케이션 서버(WAS)가 필요함
+
+## 3.  JAVA EE 구현체
+
+###  TOMCAT
+TOMCAT은 JAVA EE 스펙의 일부를 구현한 경량화된 WAS임 <br>
+특히, 서블릿(Servlet)과 JSP(JavaServer Pages) 사양을 구현하여 웹 애플리케이션을 지원함 <br>
+
+TOMCAT은 전체 JAVA EE 스펙을 구현하지 않기 때문에 '경량화'된 WAS(정확히는 Web Container)로 분류됨 <br>
+전체 JAVA EE 스펙을 구현한 WAS는 JBoss, WebLogic, WebSphere 등이 있음.
+(엄연히 따지면, TOMCAT은 WAS가 아님. 완벽한 WAS가 되기 위해서는 JAVA EE 스펙 전체를 구현해야 함) <br>
+
+### TOMCAT의 구성
+
+TOMCAT의 웹 컨테이너는 서블릿 컨테이너와 JSP 컨테이너를 포함하고 있음 <br>
+이 컨테이너는 서블릿과 JSP 파일을 자바 클래스 파일로 변환하고, 이 클래스 파일을 객체로 생성하여 실행함 <br>
+
+서블릿 컨테이너는 서블릿을 관리하고, HTTP 요청과 응답을 처리함 <br>
+JSP 컨테이너는 JSP 파일을 서블릿으로 변환하여 처리함.
+
+# 추가설명
+
+### JAVA SE와 객체 관리
+
+WAS에서 생성된 서블릿 객체들은 서블릿 컨테이너에서 관리되며, 이는 JAVA SE의 객체로 처리됨 <br>
+즉, 서블릿 컨테이너는 JAVA EE 스펙을 따른 객체를 생성하고 관리하지만, 이 객체들은 JAVA SE 환경에서 실행됨
