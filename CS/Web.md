@@ -70,7 +70,10 @@ JDK는 자바 애플리케이션을 개발하고 실행하는 데 필요한 모�
 ### JVM의 역할
 
 JVM은 자바 애플리케이션을 실행하는 핵심 역할을 하며, JAVA SE와 JAVA EE에서 공통적으로 사용됨 <br>
-JVM은 바이트코드를 해석하고, 실제 머신 코드로 변환하여 애플리케이션을 실행함
+JVM은 바이트코드를 해석하고, 실제 머신 코드로 변환하여 애플리케이션을 실행함 <br>
+JVM은 바이트코드 검증기(byteCode Verifier)와 JIT Compiler(Just-in-time compiler)를 가짐
+
+![image](https://github.com/user-attachments/assets/7ab00f96-4b55-475f-9f7a-31df930f4280)
 
 ## 2. JAVA EE (Enterprise Edition)
 
