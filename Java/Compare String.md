@@ -23,4 +23,3 @@ String s2 = new String("Hello");
 System.out.println(s1 == s2);          // false (새로운 객체가 생성되므로 주소가 다름)
 System.out.println(s1.equals(s2));     // true (값이 동일하므로 true)
 ```
-    
