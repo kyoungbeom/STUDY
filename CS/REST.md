@@ -34,7 +34,8 @@ RESTful API는 REST(Representational State Transfer) 원칙을 준수하는 API�
 
 # RESTful API의 취약점
 
-B2B 관계에서 RESTful API는 서로 간의 신뢰성이 확보된 상황이기 때문에 크게 문제가 되지 않지만, B2C 관계에서는 보안적 취약점이 분명하게 존재함
+B2B 관계에서 RESTful API는 서로 간의 신뢰성이 확보된 상황이기 때문에 크게 문제가 되지 않지만, <br>
+B2C 관계에서는 보안적 취약점이 분명하게 존재함
 
 ## 1. 무상태성과 토큰 기반 인증의 취약점
 - RESTful API는 무상태성을 유지해야 하므로, 세션 관리 대신 토큰을 사용
