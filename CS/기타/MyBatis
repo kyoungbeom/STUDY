@@ -1,0 +1,151 @@
+MyBatis는 자바 기반의 퍼시스턴스 프레임워크로, SQL 쿼리를 직접 작성하여 데이터베이스와 상호작용할 수 있게 해주는 ORM(Object Relational Mapping) 프레임워크. 
+JDBC와 달리, SQL 쿼리를 XML 파일이나 어노테이션으로 관리하면서, 더 간결하고 쉽게 데이터베이스 작업을 수행할 수 있도록 도와줌. 
+MyBatis는 복잡한 SQL 작업을 쉽게 처리할 수 있으며, 매핑 작업에서 많은 유연성을 제공함.
+
+1. MyBatis의 주요 특징
+SQL 직접 제어
+- MyBatis는 SQL 쿼리를 직접 작성하여 데이터베이스와 상호작용. 이로 인해 복잡한 쿼리나 다중 테이블 조인 등 SQL의 자유도를 높게 유지할 수 있음.
+
+XML 또는 어노테이션 기반 매핑
+- SQL을 XML 파일이나 어노테이션을 사용하여 매핑할 수 있으며, XML을 주로 사용하여 명시적으로 SQL과 자바 객체를 연결.
+
+SQL과 자바 객체의 매핑
+- 데이터베이스의 ResultSet을 자바 객체로 자동으로 매핑해주는 기능을 제공하여, 객체와 SQL의 결과를 쉽게 연결.
+
+동적 SQL 지원
+- if, choose, when, foreach 등의 태그를 사용하여 동적으로 SQL을 생성할 수 있어, 복잡한 조건 쿼리도 처리 가능.
+
+2. MyBatis의 장점
+SQL 제어 가능
+- Hibernate와 같은 완전한 ORM 프레임워크와는 달리, MyBatis는 개발자가 직접 SQL을 제어할 수 있어 고성능 쿼리나 복잡한 쿼리를 자유롭게 작성할 수 있음.
+
+설정의 유연성
+- XML 또는 어노테이션을 통해 SQL을 설정할 수 있으며, 기존 데이터베이스와의 통합이 용이.
+
+SQL 재사용성
+- 공통된 쿼리나 매핑 설정을 재사용할 수 있음.
+
+단순한 매핑
+- 데이터베이스 테이블과 자바 객체 간의 매핑 작업을 단순화해, 불필요한 코드 작성을 줄일 수 있음.
+
+동적 SQL 지원
+- 여러 조건에 맞는 쿼리를 동적으로 구성할 수 있음.
+
+3. MyBatis의 단점
+SQL 관리의 어려움
+- SQL을 XML 파일이나 어노테이션에 작성하기 때문에, SQL이 많아질수록 유지보수가 어려워질 수 있음.
+
+SQL과 코드 분리
+- SQL과 비즈니스 로직이 완전히 분리되지 않기 때문에, 유지보수 시 SQL과 자바 코드를 함께 관리해야 함.
+
+완전한 ORM이 아님
+- Hibernate와 같은 완전한 ORM 프레임워크처럼 객체 중심의 설계가 어렵고, 명시적인 SQL 작성이 필요.
+
+4. MyBatis 동작 원리
+Mapper Interface
+MyBatis는 자바 인터페이스를 통해 SQL 쿼리를 실행. 
+인터페이스 메서드는 SQL 매핑 파일에서 정의한 쿼리와 연결.
+
+SQL 매핑
+XML 또는 어노테이션을 통해 SQL과 자바 객체를 매핑. 
+XML 파일에서는 select, insert, update, delete 태그를 사용해 SQL을 정의하고, 자바 클래스의 속성과 데이터베이스 칼럼을 매핑할 수 있음.
+
+Session 관리
+MyBatis는 SqlSession을 통해 데이터베이스와의 연결을 관리. SqlSession 객체는 쿼리 실행, 트랜잭션 관리 등을 처리.
+
+5. MyBatis의 기본 구조
+
+1. Mapper 인터페이스
+Mapper 인터페이스는 MyBatis에서 SQL 쿼리와 자바 메서드를 연결하는 역할. 인터페이스 메서드는 SQL 매핑 파일과 연결되어 실행.
+
+public interface UserMapper {
+    User getUserById(int id);
+}
+
+2. XML 매핑 파일
+Mapper XML 파일에서 SQL 쿼리와 자바 객체 간의 매핑을 정의.
+
+xml
+<mapper namespace="com.example.mapper.UserMapper">
+    <select id="getUserById" resultType="com.example.domain.User">
+        SELECT * FROM users WHERE id = #{id}
+    </select>
+</mapper>
+
+#{id}: SQL 쿼리에서 사용할 파라미터 값을 참조.
+resultType: 쿼리 결과를 매핑할 자바 객체 타입을 지정.
+
+3. MyBatis 설정 파일
+MyBatis는 설정 파일을 통해 데이터베이스 연결 정보, 매퍼 위치 등을 정의.
+
+xml
+<configuration>
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql://localhost:3306/mydb"/>
+                <property name="username" value="root"/>
+                <property name="password" value="password"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+    <mappers>
+        <mapper resource="com/example/mapper/UserMapper.xml"/>
+    </mappers>
+</configuration>
+
+4. MyBatis 연동 코드
+MyBatis를 사용해 데이터베이스 쿼리를 실행하는 기본적인 코드입니다.
+
+try (SqlSession session = sqlSessionFactory.openSession()) {
+    UserMapper mapper = session.getMapper(UserMapper.class);
+    User user = mapper.getUserById(1);
+    System.out.println(user.getName());
+}
+
+6. 동적 SQL
+MyBatis는 동적 SQL을 지원하여, 조건에 따라 SQL을 다르게 실행할 수 있음. 
+이를 통해 복잡한 조건문을 SQL에 쉽게 적용.
+
+xml
+<select id="findUsers" resultType="com.example.domain.User">
+    SELECT * FROM users
+    <where>
+        <if test="name != null">
+            AND name = #{name}
+        </if>
+        <if test="age != null">
+            AND age = #{age}
+        </if>
+    </where>
+</select>
+
+if: 조건에 따라 SQL 쿼리의 특정 부분을 동적으로 삽입.
+
+1. MyBatis-Spring 연동 설정
+xml
+<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+    <property name="dataSource" ref="dataSource"/>
+    <property name="mapperLocations" value="classpath*:mapper/*.xml"/>
+</bean>
+
+<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+    <property name="basePackage" value="com.example.mapper"/>
+</bean>
+
+2. Spring에서 Mapper 사용
+Spring에서 MyBatis Mapper 인터페이스를 빈으로 등록한 후, @Autowired를 통해 의존성을 주입받아 사용할 수 있음.
+
+@Service
+public class UserService {
+
+    @Autowired
+    private UserMapper userMapper;
+
+    public User getUserById(int id) {
+        return userMapper.getUserById(id);
+    }
+}
