@@ -1,0 +1,94 @@
+Spring Boot에서 파일 업로드 및 다운로드 기능은 웹 애플리케이션에서 흔히 사용되는 기능 중 하나. 
+이를 구현할 때, HTTP 프로토콜을 통해 파일을 서버로 업로드하거나 서버에서 다운로드할 수 있으며, 파일을 저장하고 처리하는 방식도 여러 가지로 구현할 수 있음.
+
+1. 파일 업로드 (File Upload)
+Spring Boot에서 파일을 업로드하는 일반적인 과정
+
+1.1 MultipartFile 인터페이스
+Spring은 파일 업로드를 위해 MultipartFile 인터페이스를 제공. 
+이를 통해 업로드된 파일에 대한 메타 데이터(파일 이름, 크기 등)를 얻고 파일을 서버에 저장할 수 있음.
+
+1.2 파일 업로드 예제
+@RestController
+@RequestMapping("/file")
+public class FileController {
+
+    // 파일 업로드 메서드
+    @PostMapping("/upload")
+    public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) {
+        // 파일이 비어 있는지 확인
+        if (file.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("파일이 없습니다.");
+        }
+
+        // 파일 저장 경로 설정
+        String uploadDir = "uploads/";
+        Path path = Paths.get(uploadDir + file.getOriginalFilename());
+
+        try {
+            // 파일을 해당 경로에 저장
+            Files.write(path, file.getBytes());
+            return ResponseEntity.ok("파일 업로드 성공: " + file.getOriginalFilename());
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("파일 업로드 실패");
+        }
+    }
+}
+
+1.3 Multipart 설정
+Spring Boot에서 파일 업로드를 처리하려면 multipart 설정을 활성화해야 함. 
+기본적으로 Spring Boot는 spring.servlet.multipart.enabled=true로 설정되어 있으며, 최대 파일 크기나 요청 크기를 설정할 수 있음.
+
+application.properties 또는 application.yml에 다음과 같이 설정
+
+properties
+spring.servlet.multipart.max-file-size=10MB
+spring.servlet.multipart.max-request-size=10MB
+max-file-size: 업로드 가능한 최대 파일 크기.
+max-request-size: 요청 전체의 최대 크기(파일 여러 개를 포함하는 경우).
+
+2. 파일 다운로드 (File Download)
+서버에 저장된 파일을 클라이언트가 다운로드할 수 있게 하려면, 파일을 ResponseEntity로 감싸서 클라이언트에게 전송할 수 있음.
+
+2.1 파일 다운로드 예제
+@RestController
+@RequestMapping("/file")
+public class FileController {
+
+    // 파일 다운로드 메서드
+    @GetMapping("/download/{filename}")
+    public ResponseEntity<Resource> downloadFile(@PathVariable String filename) {
+        String uploadDir = "uploads/";
+        Path path = Paths.get(uploadDir + filename);
+
+        try {
+            // 파일을 리소스 객체로 변환
+            Resource resource = new UrlResource(path.toUri());
+            if (!resource.exists()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            }
+
+            // 파일을 다운로드할 수 있게 Content-Disposition 설정
+            return ResponseEntity.ok()
+                    .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                    .body(resource);
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+}
+
+UrlResource: 파일을 리소스 객체로 변환하여 클라이언트에게 제공.
+Content-Disposition 헤더: 파일을 다운로드할 때 브라우저에서 파일 이름을 설정해주는 헤더입니다.
+
+3. 파일 저장 위치 설정
+파일을 업로드한 후 서버에서 관리하기 위한 디렉토리 경로를 설정해야 함. 
+파일은 로컬 파일 시스템, 데이터베이스, 또는 클라우드 스토리지(AWS S3 등)에 저장할 수 있음.
+
+로컬 파일 시스템: 서버 내부에 파일을 저장하는 일반적인 방식.
+데이터베이스: 파일을 Blob 데이터로 저장할 수 있으며, 작은 크기의 파일에 주로 사용.
+클라우드 스토리지: AWS S3, Google Cloud Storage 같은 외부 스토리지 서비스에 파일을 저장할 수 있음.
