@@ -125,6 +125,10 @@ xml
 
 if: 조건에 따라 SQL 쿼리의 특정 부분을 동적으로 삽입.
 
+7. MyBatis와 Spring 연동
+MyBatis는 Spring과 쉽게 통합될 수 있음. 
+Spring에서는 MyBatis의 Mapper 인터페이스를 자동으로 빈으로 등록하여 사용할 수 있음.
+
 1. MyBatis-Spring 연동 설정
 xml
 <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
