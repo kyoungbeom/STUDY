@@ -1,3 +1,5 @@
+[참고] https://hoons-dev.tistory.com/72
+
 # 스프링이란?
     자바 기반의 엔터프라이즈 어플리케이션 개발을 위한 오픈 소스 프레임워크이다.
     스프링은 IoC(Inversion of Control)와 DI(Dependency Injection)라는 핵심 개념을 중심으로 설계되어 있다.
@@ -25,3 +27,40 @@
 
 # 결론
     IoC는 객체의 생성과 관리를 스프링 컨테이너가 담당하는 것이고, DI는 이렇게 생성된 객체들 간의 의존성을 외부에서 주입하여 연결하는 과정이다.
+
+# 스프링 컨테이너
+    스프링의 두 가지 주요 컨테이너는 BeanFactory와 ApplicationContext이다. 
+    이 중 ApplicationContext는 BeanFactory의 기능을 포함한 더 기능이 풍부한 컨테이너로, 일반적으로 스프링 애플리케이션에서 주로 사용된다.
+
+# 객체 등록 방법
+    스프링 컨테이너에 객체를 등록하는 방법에는 크게 XML 설정과 어노테이션 기반 설정이 있다.
+
+### XML
+```
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="myBean" class="com.example.MyClass"/>
+</beans>
+```
+
+### 어노테이션
+    스프링 2.5 버전부터는 어노테이션 기반 설정이 지원되며, 
+    @Component, @Service, @Repository, @Controller 등 다양한 애노테이션을 사용해 클래스를 자동으로 스프링 컨테이너에 등록할 수 있다. 
+    
+    이를 위해 @Configuration 또는 @ComponentScan과 같은 애노테이션을 사용해 설정 파일에 스캔 범위를 지정하고, 
+    그 범위 내에서 @Component가 붙은 클래스들을 자동으로 등록한다.
+```
+@Component
+public class MyClass {
+    // ...
+}
+
+@Configuration
+@ComponentScan(basePackages = "com.example")
+public class AppConfig {
+    // MyClass는 자동으로 스프링 컨테이너에 등록됨
+}
+```
